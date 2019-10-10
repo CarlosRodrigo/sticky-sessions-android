@@ -9,7 +9,9 @@ import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLobbyC
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerLoginComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerMeetingComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerSessionComponent;
+import br.org.cesar.discordtime.stickysessions.injectors.components.DaggerTopicNotesViewComponent;
 import br.org.cesar.discordtime.stickysessions.injectors.modules.ContextModule;
+import br.org.cesar.discordtime.stickysessions.ui.session.notes.NotesView;
 import br.org.cesar.discordtime.stickysessions.ui.list.ListSessionsActivity;
 import br.org.cesar.discordtime.stickysessions.ui.lobby.LobbyActivity;
 import br.org.cesar.discordtime.stickysessions.ui.login.LoginActivity;
@@ -24,6 +26,8 @@ public class StickySessionApplication extends Application {
     protected DaggerSessionComponent.Builder mSessionComponentBuilder;
     protected DaggerListSessionComponent.Builder mSessionListBuilder;
     protected DaggerMeetingComponent.Builder mMeetingComponentBuilder;
+    protected DaggerTopicNotesViewComponent.Builder mTopicNotesViewBuilder;
+
 
     @Override
     public void onCreate() {
@@ -33,6 +37,7 @@ public class StickySessionApplication extends Application {
         configureSessionInjectorBuilder();
         configureSessionListInjectorBuilder();
         configureMeetingInjectorBuilder();
+        configureTopicNotesViewBuilder();
 
         Fabric.with(this, new Crashlytics());
     }
@@ -61,6 +66,11 @@ public class StickySessionApplication extends Application {
                 .contextModule(new ContextModule(getApplicationContext()));
     }
 
+    protected void configureTopicNotesViewBuilder() {
+        mTopicNotesViewBuilder = DaggerTopicNotesViewComponent.builder()
+                .contextModule(new ContextModule(getApplicationContext()));
+    }
+
     public void inject(LoginActivity activity) {
         mLoginComponentBuilder.build().inject(activity);
     }
@@ -81,4 +91,7 @@ public class StickySessionApplication extends Application {
         mMeetingComponentBuilder.build().inject(activity);
     }
 
+    public void inject(final NotesView topicNotesView) {
+        mTopicNotesViewBuilder.build().inject(topicNotesView);
+    }
 }

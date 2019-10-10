@@ -3,6 +3,7 @@ package br.org.cesar.discordtime.stickysessions.ui.adapters;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     public void setNotes(List<Note> notes) {
 
         if (notes == null) {
-            throw new InvalidParameterException("note list could not be null");
+            throw new InvalidParameterException("note loadNotesForSession could not be null");
         }
 
         mNotes.clear();
@@ -71,6 +72,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
     @Override
     public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d("devlog", "onCreateViewHolder");
         Context context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.note_element, parent, false);
 
@@ -139,14 +141,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         NoteViewHolder(View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    Note note = mNotes.get(position);
-                    mCallback.onItemClicked(note);
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getAdapterPosition();
+//                    Note note = mNotes.get(position);
+//                    mCallback.onItemClicked(note);
+//                }
+//            });
 
             mTitle = itemView.findViewById(R.id.title_note_element);
             mContent = itemView.findViewById(R.id.description_note_element);
